@@ -136,6 +136,55 @@ p{color:var(--ink-soft)}
 .hero h1{margin-bottom:26px}
 .hero .lead{max-width:640px;margin:0 auto 38px}
 .hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+/* ---------- hero carve animation (videó-hatású vésés) ---------- */
+.hero-carve{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.carve{position:absolute;width:min(360px,30vw)}
+.carve-left{top:6%;left:2.5%;transform:rotate(-7deg);opacity:.10}
+.carve-right{bottom:5%;right:2.5%;transform:rotate(6deg);opacity:.09}
+.carve .plaque{fill:rgba(255,255,255,.55);stroke:rgba(23,22,58,.35);stroke-width:1.5}
+.carve .vein{fill:none;stroke:rgba(23,22,58,.18);stroke-width:1}
+.carve .carve-txt{
+  font-family:Georgia,'Times New Roman',serif;font-weight:700;
+  letter-spacing:.28em;fill:#17163A;stroke:#17163A;stroke-width:1;
+  fill-opacity:0;stroke-dasharray:230;stroke-dashoffset:230;
+  animation:carve 14s ease-in-out infinite;
+}
+.carve .l1{font-size:27px;letter-spacing:.22em}
+.carve .l3{font-size:21px;letter-spacing:.34em}
+.carve .carve-orn{
+  fill:none;stroke:#17163A;stroke-width:1.6;
+  stroke-dasharray:230;stroke-dashoffset:230;
+  animation:carve 14s ease-in-out infinite;
+}
+.carve .l1{animation-delay:0s}
+.carve .l2{animation-delay:1.4s}
+.carve .l3{animation-delay:2.4s}
+.carve-right .carve-txt,.carve-right .carve-orn{animation-duration:15s}
+.carve-right .l1{animation-delay:.8s}
+.carve-right .l2{animation-delay:2.2s}
+.carve-right .l3{animation-delay:3.2s}
+@keyframes carve{
+  0%{stroke-dashoffset:230;fill-opacity:0;opacity:1}
+  38%{stroke-dashoffset:0;fill-opacity:0}
+  52%{stroke-dashoffset:0;fill-opacity:.9}
+  84%{stroke-dashoffset:0;fill-opacity:.9;opacity:1}
+  93%{opacity:0}
+  100%{stroke-dashoffset:230;fill-opacity:0;opacity:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .carve .carve-txt,.carve .carve-orn{
+    animation:none;stroke-dashoffset:0;fill-opacity:.9;
+  }
+}
+@media (max-width:960px){
+  .carve{width:36vw}
+  .carve-left{top:2%}
+}
+@media (max-width:720px){
+  .carve-right{display:none}
+  .carve-left{width:52vw;opacity:.08;top:1%;left:0}
+}
+
 .scroll-cue{
   margin-top:70px;font-family:var(--font-mono);font-size:.75rem;
   letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);opacity:.65;
