@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://emlektabla.net/sitemap.xml
+
+# AI crawlers: gépi olvasásra optimalizált összefoglaló
+# https://emlektabla.net/llms.txt
