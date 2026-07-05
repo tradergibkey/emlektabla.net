@@ -98,4 +98,17 @@
         });
     });
   }
+
+  /* vélemény marquee: véletlen sorrend + zökkenőmentes loop */
+  var track = document.getElementById("quote-track");
+  if (track) {
+    var group = track.querySelector(".quote-group");
+    var items = Array.prototype.slice.call(group.children);
+    for (var i = items.length - 1; i > 0; i--) {
+      var j2 = Math.floor(Math.random() * (i + 1));
+      group.appendChild(items[j2]);
+      items.splice(j2, 1);
+    }
+    if (!reduced) track.appendChild(group.cloneNode(true));
+  }
 })();
