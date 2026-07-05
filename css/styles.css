@@ -142,13 +142,7 @@ p{color:var(--ink-soft)}
   object-fit:cover;filter:saturate(.6) contrast(1.02);
 }
 .hero-veil{position:absolute;inset:0;background:rgba(245,245,240,.87)}
-@media (min-width:721px){.hero-carve{display:none}}
-@media (max-width:720px){.hero-video,.hero-veil{display:none}}
-@media (prefers-reduced-motion:reduce){
-  .hero-video,.hero-veil{display:none}
-  .hero-carve{display:block}
-}
-
+.hero-carve{display:none}
 /* ---------- hero carve animation (videó-hatású vésés) ---------- */
 .hero-carve{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .carve{position:absolute;width:min(360px,30vw)}
@@ -336,10 +330,6 @@ p{color:var(--ink-soft)}
 @media (max-width:720px){
   .quote-track .quote{width:280px}
   .quote-track{animation-duration:170s}
-}
-@media (prefers-reduced-motion:reduce){
-  .quote-track{animation:none}
-  .quote-marquee{overflow-x:auto;-webkit-mask-image:none;mask-image:none}
 }
 
 /* ---------- FAQ ---------- */
