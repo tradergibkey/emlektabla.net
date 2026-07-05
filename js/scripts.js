@@ -111,4 +111,24 @@
     }
     if (!reduced) track.appendChild(group.cloneNode(true));
   }
+
+  /* hero videó fallback: ha nem tölt be vagy nem indul, a vésett plakett jelenik meg */
+  var vid = document.querySelector(".hero-video");
+  if (vid) {
+    var showCarve = function () {
+      vid.style.display = "none";
+      var veil = document.querySelector(".hero-veil");
+      if (veil) veil.style.display = "none";
+      var carve = document.querySelector(".hero-carve");
+      if (carve) carve.style.display = "block";
+    };
+    var src = vid.querySelector("source");
+    if (src) src.addEventListener("error", showCarve);
+    vid.addEventListener("error", showCarve);
+    var p = vid.play();
+    if (p && p.catch) p.catch(showCarve);
+    setTimeout(function () {
+      if (vid.readyState === 0) showCarve();
+    }, 4000);
+  }
 })();
