@@ -14,7 +14,7 @@
   --violet:#6F6A4B;
   --magenta:#8F8961;
   --pink:#6F6A4B;
-  --grad:linear-gradient(120deg,#6F6A4B 0%,#8F8961 55%,#B2AC88 100%);
+  --grad:linear-gradient(120deg,#565137 0%,#6F6A4B 55%,#857F5C 100%);
   --grad-soft:linear-gradient(120deg,rgba(178,172,136,.16),rgba(143,137,97,.12));
   --radius:18px;
   --radius-sm:12px;
@@ -320,6 +320,27 @@ p{color:var(--ink-soft)}
   color:var(--ink);font-size:.9rem;
 }
 .quote .stars{color:#F59E0B;letter-spacing:2px;margin-bottom:10px;font-size:.9rem}
+
+
+/* ---------- vélemény marquee ---------- */
+.quote-marquee{
+  overflow:hidden;position:relative;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+}
+.quote-track{display:flex;width:max-content;animation:qscroll 140s linear infinite}
+.quote-track:hover{animation-play-state:paused}
+.quote-group{display:flex;gap:26px;padding-right:26px}
+.quote-track .quote{width:340px;flex:0 0 auto}
+@keyframes qscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (max-width:720px){
+  .quote-track .quote{width:280px}
+  .quote-track{animation-duration:170s}
+}
+@media (prefers-reduced-motion:reduce){
+  .quote-track{animation:none}
+  .quote-marquee{overflow-x:auto;-webkit-mask-image:none;mask-image:none}
+}
 
 /* ---------- FAQ ---------- */
 .faq-item{
