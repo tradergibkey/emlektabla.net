@@ -43,7 +43,7 @@
     "addressCountry": "HU"
   },
   "priceRange": "$$",
-  "knowsAbout": ["emléktábla készítés", "emléktábla felújítás", "gránit emléktábla", "márvány emléktábla", "mészkő emléktábla", "homokfúvás", "gravírozás"]
+  "knowsAbout": ["emléktábla készítés", "emléktábla felújítás", "gránit emléktábla", "márvány emléktábla", "mészkő emléktábla", "hálatábla készítés", "homokfúvás", "gravírozás"]
 }
 </script>
 <script type="application/ld+json">
@@ -99,9 +99,15 @@
     <button class="nav-toggle" aria-label="Menü megnyitása" aria-expanded="false">☰</button>
     <nav class="main-nav" aria-label="Fő navigáció">
       <a href="/" class="active">Főoldal</a>
-      <a href="/emlektabla-keszites">Készítés</a>
-      <a href="/emlektabla-felujitas">Felújítás</a>
-      <a href="/emlektabla-tervezes">Tervezés</a>
+      <div class="nav-item">
+        <button type="button" class="sub-toggle" aria-expanded="false" aria-haspopup="true">Szolgáltatások <span class="caret" aria-hidden="true">▾</span></button>
+        <div class="sub-menu">
+          <a href="/emlektabla-keszites">Emléktábla készítés</a>
+          <a href="/emlektabla-felujitas">Emléktábla felújítás</a>
+          <a href="/emlektabla-tervezes">Emléktábla tervezés</a>
+          <a href="/halatabla">Hálatábla</a>
+        </div>
+      </div>
       <a href="/galeria">Galéria</a>
       <a href="/blog">Blog</a>
       <a href="/#kapcsolat" class="btn-nav">Ajánlatkérés</a>
@@ -185,7 +191,7 @@
       <h2>A tervezéstől a <span class="grad-text">felújításig</span></h2>
       <p class="lead">Egy kézben minden, ami emléktábla: közös tervezés, precíz kivitelezés két technológiával, és régi táblák szakszerű megújítása.</p>
     </div>
-    <div class="grid-3">
+    <div class="grid-2">
       <article class="card reveal">
         <h3>Emléktábla készítés</h3>
         <p>Egyedi emléktáblák gyártása méretre, gránitból, márványból vagy mészkőből. <strong>Homokfúvással</strong> mélységgel bíró, tartós vésett feliratot készítünk; <strong>gravírozással</strong> felületi képeket, portrékat és finom részleteket jelenítünk meg.</p>
@@ -200,6 +206,11 @@
         <h3>Emléktábla tervezés</h3>
         <p>A jó tábla a betűtípusnál kezdődik. Digitális látványtervet készítünk a jóváhagyásig: elrendezés, betűméret, díszítőelemek — így pontosan azt kapja, amit elképzelt.</p>
         <a href="/emlektabla-tervezes" class="card-link">Részletek →</a>
+      </article>
+      <article class="card reveal">
+        <h3>Hálatábla</h3>
+        <p>A köszönet legidőtállóbb formája: vésett, aranyozott feliratú hálatáblák márványból és gránitból — kegyhelyre, köszönetnyilvánításra, családi emlékre. <strong>Tervezéstől a felújításig.</strong></p>
+        <a href="/halatabla" class="card-link">Részletek →</a>
       </article>
     </div>
   </div>
@@ -458,6 +469,7 @@
             <option>Emléktábla készítés</option>
             <option>Emléktábla felújítás</option>
             <option>Emléktábla tervezés</option>
+            <option>Hálatábla</option>
             <option>Egyéb kérdés</option>
           </select>
         </div>
@@ -487,6 +499,7 @@
         <a href="/emlektabla-keszites">Emléktábla készítés</a>
         <a href="/emlektabla-felujitas">Emléktábla felújítás</a>
         <a href="/emlektabla-tervezes">Emléktábla tervezés</a>
+        <a href="/halatabla">Hálatábla</a>
       </div>
       <div>
         <p class="footer-title">Anyagok</p>

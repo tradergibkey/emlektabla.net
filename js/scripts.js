@@ -12,6 +12,25 @@
     });
   }
 
+  /* dropdown almenü (Szolgáltatások) */
+  document.querySelectorAll(".sub-toggle").forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var item = btn.closest(".nav-item");
+      var open = item.classList.toggle("open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  });
+  document.addEventListener("click", function (e) {
+    document.querySelectorAll(".nav-item.open").forEach(function (item) {
+      if (!item.contains(e.target)) {
+        item.classList.remove("open");
+        var b = item.querySelector(".sub-toggle");
+        if (b) b.setAttribute("aria-expanded", "false");
+      }
+    });
+  });
+
   /* scroll reveal (class-based, respects reduced motion) */
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var items = document.querySelectorAll(".reveal");
@@ -109,7 +128,7 @@
       group.appendChild(items[j2]);
       items.splice(j2, 1);
     }
-    if (!reduced) track.appendChild(group.cloneNode(true));
+    track.appendChild(group.cloneNode(true));
   }
 
   /* hero videó fallback: ha nem tölt be vagy nem indul, a vésett plakett jelenik meg */
