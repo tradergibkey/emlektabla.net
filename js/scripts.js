@@ -12,6 +12,16 @@
     });
   }
 
+
+  /* tervezőből érkező ajánlatkérés előtöltése */
+  try {
+    var terv = new URLSearchParams(window.location.search).get("terv");
+    if (terv) {
+      var msg = document.querySelector('#kapcsolat textarea, form textarea');
+      if (msg && !msg.value) msg.value = terv;
+    }
+  } catch (e) {}
+
   /* dropdown almenü (Szolgáltatások) */
   document.querySelectorAll(".sub-toggle").forEach(function (btn) {
     btn.addEventListener("click", function (e) {
