@@ -667,3 +667,16 @@ p{color:var(--ink-soft)}
   .designer-band .mini-plaque{margin:0 auto}
   .designer-band .btn{justify-self:center}
 }
+
+/* ---------- előtte / utána pár ---------- */
+.before-after{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.before-after figure{position:relative;margin:0}
+.before-after img{width:100%;border-radius:12px;box-shadow:var(--shadow);display:block}
+.ba-label{
+  position:absolute;bottom:10px;left:10px;padding:5px 14px;border-radius:999px;
+  font-family:var(--font-head,'Sora'),sans-serif;font-size:.78rem;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;
+}
+.ba-before{background:rgba(30,28,36,.78);color:#F7F5FA}
+.ba-after{background:var(--violet);color:#FFF}
+@media(max-width:600px){.before-after{grid-template-columns:1fr;gap:10px}}
