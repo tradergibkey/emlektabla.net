@@ -109,6 +109,7 @@
             <button type="button" class="ctrl-pill" data-size="40x30">40×30 cm</button>
             <button type="button" class="ctrl-pill" data-size="60x40">60×40 cm</button>
           </div>
+          <input type="text" id="ctrlCustomSize" class="ctrl-input" placeholder="Egyedi méret, pl. 82×115 cm" maxlength="30">
           <div class="ctrl-options" id="ctrlOrient" style="margin-top:10px">
             <button type="button" class="ctrl-pill active" data-orient="fekvo">Fekvő</button>
             <button type="button" class="ctrl-pill" data-orient="allo">Álló</button>
@@ -129,26 +130,84 @@ szeretteinknek</textarea>
             <button type="button" class="ctrl-pill font-modern" data-font="modern">Modern</button>
             <button type="button" class="ctrl-pill font-vesett" data-font="vesett">Vésett</button>
           </div>
+          <input type="text" id="ctrlCustomFont" class="ctrl-input" placeholder="Egyéb betűtípus, pl. Times New Roman" maxlength="60">
+          <p class="ctrl-hint">Ha egyedi betűtípust szeretne, írja be a nevét — az ajánlatkérésbe bekerül.</p>
         </div>
 
         <div class="ctrl-group">
-          <p class="ctrl-label">5. Betűszín</p>
-          <div class="ctrl-options" id="ctrlColor">
-            <button type="button" class="ctrl-swatch active" data-color="arany"><span class="swatch color-arany"></span>Arany</button>
-            <button type="button" class="ctrl-swatch" data-color="fekete"><span class="swatch color-fekete"></span>Fekete</button>
-            <button type="button" class="ctrl-swatch" data-color="feher"><span class="swatch color-feher"></span>Fehér</button>
-            <button type="button" class="ctrl-swatch" data-color="ezust"><span class="swatch color-ezust"></span>Ezüst</button>
+          <p class="ctrl-label">5. Háttérszín</p>
+          <div class="ctrl-color-grid" id="ctrlBgColor">
+            <button type="button" class="ctrl-color active" data-color="fekete" aria-pressed="true" title="Fekete"><span class="swatch" style="background:#1B1922"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetszurke" aria-pressed="false" title="Sötétszürke"><span class="swatch" style="background:#4A4856"></span></button>
+            <button type="button" class="ctrl-color" data-color="szurke" aria-pressed="false" title="Szürke"><span class="swatch" style="background:#8A8898"></span></button>
+            <button type="button" class="ctrl-color" data-color="vilagosszurke" aria-pressed="false" title="Világosszürke"><span class="swatch" style="background:#C4C2CC"></span></button>
+            <button type="button" class="ctrl-color" data-color="feher" aria-pressed="false" title="Fehér"><span class="swatch" style="background:#F7F5FA"></span></button>
+            <button type="button" class="ctrl-color" data-color="krem" aria-pressed="false" title="Krém"><span class="swatch" style="background:#F5E6C8"></span></button>
+            <button type="button" class="ctrl-color" data-color="arany" aria-pressed="false" title="Arany"><span class="swatch" style="background:#C9962E"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetarany" aria-pressed="false" title="Sötét arany"><span class="swatch" style="background:#8B6914"></span></button>
+            <button type="button" class="ctrl-color" data-color="bronz" aria-pressed="false" title="Bronz"><span class="swatch" style="background:#8C5E3C"></span></button>
+            <button type="button" class="ctrl-color" data-color="ezust" aria-pressed="false" title="Ezüst"><span class="swatch" style="background:#B9BCC8"></span></button>
+            <button type="button" class="ctrl-color" data-color="bordo" aria-pressed="false" title="Bordó"><span class="swatch" style="background:#6B1530"></span></button>
+            <button type="button" class="ctrl-color" data-color="voros" aria-pressed="false" title="Vörös"><span class="swatch" style="background:#8B2020"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetkek" aria-pressed="false" title="Sötétkék"><span class="swatch" style="background:#1B2A4A"></span></button>
+            <button type="button" class="ctrl-color" data-color="zold" aria-pressed="false" title="Zöld"><span class="swatch" style="background:#2A5A3A"></span></button>
+            <button type="button" class="ctrl-color" data-color="barna" aria-pressed="false" title="Barna"><span class="swatch" style="background:#5C3D2E"></span></button>
+            <button type="button" class="ctrl-color" data-color="terrakotta" aria-pressed="false" title="Terrakotta"><span class="swatch" style="background:#C47244"></span></button>
           </div>
         </div>
 
         <div class="ctrl-group">
-          <p class="ctrl-label">6. Díszítés</p>
+          <p class="ctrl-label">6. Betűszín</p>
+          <div class="ctrl-color-grid" id="ctrlTextColor">
+            <button type="button" class="ctrl-color" data-color="fekete" aria-pressed="false" title="Fekete"><span class="swatch" style="background:#1B1922"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetszurke" aria-pressed="false" title="Sötétszürke"><span class="swatch" style="background:#4A4856"></span></button>
+            <button type="button" class="ctrl-color" data-color="szurke" aria-pressed="false" title="Szürke"><span class="swatch" style="background:#8A8898"></span></button>
+            <button type="button" class="ctrl-color" data-color="vilagosszurke" aria-pressed="false" title="Világosszürke"><span class="swatch" style="background:#C4C2CC"></span></button>
+            <button type="button" class="ctrl-color" data-color="feher" aria-pressed="false" title="Fehér"><span class="swatch" style="background:#F7F5FA"></span></button>
+            <button type="button" class="ctrl-color" data-color="krem" aria-pressed="false" title="Krém"><span class="swatch" style="background:#F5E6C8"></span></button>
+            <button type="button" class="ctrl-color active" data-color="arany" aria-pressed="true" title="Arany"><span class="swatch" style="background:#C9962E"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetarany" aria-pressed="false" title="Sötét arany"><span class="swatch" style="background:#8B6914"></span></button>
+            <button type="button" class="ctrl-color" data-color="bronz" aria-pressed="false" title="Bronz"><span class="swatch" style="background:#8C5E3C"></span></button>
+            <button type="button" class="ctrl-color" data-color="ezust" aria-pressed="false" title="Ezüst"><span class="swatch" style="background:#B9BCC8"></span></button>
+            <button type="button" class="ctrl-color" data-color="bordo" aria-pressed="false" title="Bordó"><span class="swatch" style="background:#6B1530"></span></button>
+            <button type="button" class="ctrl-color" data-color="voros" aria-pressed="false" title="Vörös"><span class="swatch" style="background:#8B2020"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetkek" aria-pressed="false" title="Sötétkék"><span class="swatch" style="background:#1B2A4A"></span></button>
+            <button type="button" class="ctrl-color" data-color="zold" aria-pressed="false" title="Zöld"><span class="swatch" style="background:#2A5A3A"></span></button>
+            <button type="button" class="ctrl-color" data-color="barna" aria-pressed="false" title="Barna"><span class="swatch" style="background:#5C3D2E"></span></button>
+            <button type="button" class="ctrl-color" data-color="terrakotta" aria-pressed="false" title="Terrakotta"><span class="swatch" style="background:#C47244"></span></button>
+          </div>
+        </div>
+
+        <div class="ctrl-group">
+          <p class="ctrl-label">7. Díszítés</p>
           <div class="ctrl-options" id="ctrlMotif">
             <button type="button" class="ctrl-pill active" data-motif="nincs">Nincs</button>
             <button type="button" class="ctrl-pill" data-motif="keret">Keret</button>
             <button type="button" class="ctrl-pill" data-motif="kereszt">Kereszt</button>
             <button type="button" class="ctrl-pill" data-motif="olajag">Olajág</button>
             <button type="button" class="ctrl-pill" data-motif="csillag">Csillag</button>
+          </div>
+        </div>
+
+        <div class="ctrl-group">
+          <p class="ctrl-label">8. Díszítés színe</p>
+          <div class="ctrl-color-grid" id="ctrlMotifColor">
+            <button type="button" class="ctrl-color" data-color="fekete" aria-pressed="false" title="Fekete"><span class="swatch" style="background:#1B1922"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetszurke" aria-pressed="false" title="Sötétszürke"><span class="swatch" style="background:#4A4856"></span></button>
+            <button type="button" class="ctrl-color" data-color="szurke" aria-pressed="false" title="Szürke"><span class="swatch" style="background:#8A8898"></span></button>
+            <button type="button" class="ctrl-color" data-color="vilagosszurke" aria-pressed="false" title="Világosszürke"><span class="swatch" style="background:#C4C2CC"></span></button>
+            <button type="button" class="ctrl-color" data-color="feher" aria-pressed="false" title="Fehér"><span class="swatch" style="background:#F7F5FA"></span></button>
+            <button type="button" class="ctrl-color" data-color="krem" aria-pressed="false" title="Krém"><span class="swatch" style="background:#F5E6C8"></span></button>
+            <button type="button" class="ctrl-color active" data-color="arany" aria-pressed="true" title="Arany"><span class="swatch" style="background:#C9962E"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetarany" aria-pressed="false" title="Sötét arany"><span class="swatch" style="background:#8B6914"></span></button>
+            <button type="button" class="ctrl-color" data-color="bronz" aria-pressed="false" title="Bronz"><span class="swatch" style="background:#8C5E3C"></span></button>
+            <button type="button" class="ctrl-color" data-color="ezust" aria-pressed="false" title="Ezüst"><span class="swatch" style="background:#B9BCC8"></span></button>
+            <button type="button" class="ctrl-color" data-color="bordo" aria-pressed="false" title="Bordó"><span class="swatch" style="background:#6B1530"></span></button>
+            <button type="button" class="ctrl-color" data-color="voros" aria-pressed="false" title="Vörös"><span class="swatch" style="background:#8B2020"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetkek" aria-pressed="false" title="Sötétkék"><span class="swatch" style="background:#1B2A4A"></span></button>
+            <button type="button" class="ctrl-color" data-color="zold" aria-pressed="false" title="Zöld"><span class="swatch" style="background:#2A5A3A"></span></button>
+            <button type="button" class="ctrl-color" data-color="barna" aria-pressed="false" title="Barna"><span class="swatch" style="background:#5C3D2E"></span></button>
+            <button type="button" class="ctrl-color" data-color="terrakotta" aria-pressed="false" title="Terrakotta"><span class="swatch" style="background:#C47244"></span></button>
           </div>
         </div>
 
