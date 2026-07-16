@@ -12,5 +12,4 @@
   <url><loc>https://emlektabla.net/galeria</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://emlektabla.net/blog</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
   <url><loc>https://emlektabla.net/adatvedelem</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
-  <url><loc>https://emlektabla.net/impresszum</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
 </urlset>
