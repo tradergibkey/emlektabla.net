@@ -461,6 +461,11 @@ p{color:var(--ink-soft)}
   color:var(--ink-soft);text-transform:uppercase;margin-bottom:8px;display:block;
 }
 .post-card p{font-size:.93rem;flex:1}
+.post-card .card-link{display:inline-block;margin-top:auto;padding-top:14px;font-weight:700}
+.post-card-img{
+  width:100%;aspect-ratio:16/9;object-fit:cover;display:block;
+  background:var(--bg-alt);
+}
 .empty-state{
   text-align:center;padding:70px 24px;border:1.5px dashed var(--line);
   border-radius:var(--radius);color:var(--ink-soft);
