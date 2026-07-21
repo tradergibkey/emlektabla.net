@@ -2,6 +2,16 @@
 (function () {
   "use strict";
 
+  /* Google Ads conversion — phone link clicks */
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href^="tel:"]');
+    if (link && typeof gtag === 'function') {
+      gtag('event', 'conversion', {
+        'send_to': 'AW-18339451265/phone_click'
+      });
+    }
+  });
+
   /* mobile nav */
   var toggle = document.querySelector(".nav-toggle");
   var nav = document.querySelector(".main-nav");
@@ -112,6 +122,12 @@
             status.textContent = "Köszönjük! Üzenetét megkaptuk, hamarosan jelentkezünk.";
             status.className = "form-status ok";
             form.reset();
+            /* Google Ads conversion — form submission */
+            if (typeof gtag === 'function') {
+              gtag('event', 'conversion', {
+                'send_to': 'AW-18339451265/form_submit'
+              });
+            }
           } else {
             status.textContent = "Hiba történt a küldés során. Kérjük, próbálja újra, vagy hívjon minket telefonon.";
             status.className = "form-status err";
