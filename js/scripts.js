@@ -7,7 +7,9 @@
     var link = e.target.closest('a[href^="tel:"]');
     if (link && typeof gtag === 'function') {
       gtag('event', 'conversion', {
-        'send_to': 'AW-18339451265/phone_click'
+        'send_to': 'AW-18339451265/5J1LCLGT8tMcEIGj96hE',
+        'value': 1.0,
+        'currency': 'HUF'
       });
     }
   });
@@ -125,7 +127,9 @@
             /* Google Ads conversion — form submission */
             if (typeof gtag === 'function') {
               gtag('event', 'conversion', {
-                'send_to': 'AW-18339451265/form_submit'
+                'send_to': 'AW-18339451265/5J1LCLGT8tMcEIGj96hE',
+                'value': 1.0,
+                'currency': 'HUF'
               });
             }
           } else {
