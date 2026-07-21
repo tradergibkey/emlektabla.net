@@ -1,0 +1,7 @@
+{
+  "name": "emlektabla-net",
+  "private": true,
+  "scripts": {
+    "build": "node build-sitemap.js"
+  }
+}
