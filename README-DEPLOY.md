@@ -74,3 +74,5 @@ emlektabla-net/
 ├── vercel.json             ← clean URL-ek + security headerek
 └── local-server.py         ← lokális teszt szerver
 ```
+
+ 
