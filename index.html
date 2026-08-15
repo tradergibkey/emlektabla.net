@@ -121,9 +121,7 @@
 
 <!-- HERO -->
 <section class="hero">
-  <video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
-    <source src="/img/hero-video.mp4" type="video/mp4">
-  </video>
+  <video class="hero-video" muted loop playsinline preload="none" aria-hidden="true" data-src="/img/hero-video.mp4"></video>
   <div class="hero-veil" aria-hidden="true"></div>
   <div class="hero-bg" aria-hidden="true"></div>
   <div class="hero-carve" aria-hidden="true">
@@ -540,6 +538,10 @@
         <a href="/blog">Blog</a>
       </div>
     </div>
+    <div class="footer-nap">
+      <p><strong>Emlektabla.net</strong> · Egyedi emléktáblák Budapesten · <a href="tel:+36307265412">+36 30 726 5412</a></p>
+      <p>Szolgáltatási terület: Budapest teljes területén · Hívható: hétfő–szombat 9:00–18:00</p>
+    </div>
     <div class="footer-bottom">
       <span>© 2026 Emlektabla.net — Minden jog fenntartva.</span>
       <span>
@@ -558,6 +560,32 @@
   </div>
 </div>
 
+<script>
+/* Hero video lazy loader — defers video download past LCP.
+   Respects prefers-reduced-motion, data-saver mode and slow connections. */
+(function(){
+  function loadHeroVideo(){
+    var v = document.querySelector('.hero-video[data-src]');
+    if (!v) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var c = navigator.connection;
+    if (c && c.saveData) return;
+    if (c && (c.effectiveType === 'slow-2g' || c.effectiveType === '2g')) return;
+    var s = document.createElement('source');
+    s.src = v.dataset.src;
+    s.type = 'video/mp4';
+    v.appendChild(s);
+    v.load();
+    var p = v.play();
+    if (p && p.catch) p.catch(function(){});
+  }
+  if (document.readyState === 'complete') {
+    setTimeout(loadHeroVideo, 100);
+  } else {
+    window.addEventListener('load', function(){ setTimeout(loadHeroVideo, 100); });
+  }
+})();
+</script>
 <script src="/js/scripts.js" defer></script>
 </body>
 </html>
