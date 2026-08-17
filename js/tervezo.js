@@ -1,233 +1,319 @@
-/* Online emléktábla tervező v2 — emlektabla.net */
-(function () {
-  "use strict";
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online emléktábla tervező — tervezze meg saját tábláját</title>
+<meta name="description" content="Ingyenes online emléktábla tervező: válasszon anyagot, méretet és betűtípust, nézze meg élőben — a kész tervre egy kattintással kérhet ajánlatot.">
+<link rel="canonical" href="https://emlektabla.net/tervezo">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Online emléktábla tervező — tervezze meg saját tábláját">
+<meta property="og:description" content="Ingyenes online emléktábla tervező: válasszon anyagot, méretet és betűtípust, nézze meg élőben — a kész tervre egy kattintással kérhet ajánlatot.">
+<meta property="og:url" content="https://emlektabla.net/tervezo">
+<meta property="og:image" content="https://emlektabla.net/img/og-cover.jpg">
+<meta property="og:locale" content="hu_HU">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23E37535'/%3E%3Cstop offset='1' stop-color='%239A133C'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='34' font-weight='800' fill='white' text-anchor='middle'%3EE%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@700;800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@700;800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"></noscript>
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Online emléktábla tervező","description":"Ingyenes online tervező, amellyel a látogató anyagot, méretet, betűtípust és feliratot választva élő előnézetben tervezheti meg emléktábláját vagy hálatábláját, majd egy kattintással ajánlatot kérhet rá.","url":"https://emlektabla.net/tervezo","applicationCategory":"DesignApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"HUF"},"provider":{"@id":"https://emlektabla.net/#business"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Főoldal","item":"https://emlektabla.net/"},{"@type":"ListItem","position":2,"name":"Online tervező","item":"https://emlektabla.net/tervezo"}]}
+</script>
+</head>
+<body>
 
-  var state = {
-    material: "granit",
-    size: "30x20",
-    customSize: "",
-    orient: "fekvo",
-    text: "Emlékül\nszeretteinknek",
-    font: "klasszikus",
-    customFont: "",
-    bgColor: "fekete",
-    textColor: "arany",
-    motif: "nincs",
-    motifColor: "arany"
-  };
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="logo">emlektabla<span class="dot">.net</span></a>
+    <button class="nav-toggle" aria-label="Menü megnyitása" aria-expanded="false">☰</button>
+    <nav class="main-nav" aria-label="Fő navigáció">
+      <a href="/">Főoldal</a>
+      <div class="nav-item">
+        <button type="button" class="sub-toggle active" aria-expanded="false" aria-haspopup="true">Szolgáltatások <span class="caret" aria-hidden="true">▾</span></button>
+        <div class="sub-menu">
+          <a href="/emlektabla-keszites">Emléktábla készítés</a>
+          <a href="/emlektabla-felujitas">Emléktábla felújítás</a>
+          <a href="/emlektabla-tervezes">Emléktábla tervezés</a>
+          <a href="/halatabla">Hálatábla</a>
+          <a href="/tervezo" class="active">Online tervező</a>
+        </div>
+      </div>
+      <a href="/galeria">Galéria</a>
+      <a href="/blog">Blog</a>
+      <a href="/#kapcsolat" class="btn-nav">Ajánlatkérés</a>
+    </nav>
+  </div>
+</header>
 
-  /* ---- 16-color palette ---- */
-  var COLORS = [
-    {id:"fekete",    label:"Fekete",       hex:"#1B1922"},
-    {id:"sotetszurke",label:"Sötétszürke", hex:"#4A4856"},
-    {id:"szurke",    label:"Szürke",       hex:"#8A8898"},
-    {id:"vilagosszurke",label:"Világosszürke",hex:"#C4C2CC"},
-    {id:"feher",     label:"Fehér",        hex:"#F7F5FA"},
-    {id:"krem",      label:"Krém",         hex:"#F5E6C8"},
-    {id:"arany",     label:"Arany",        hex:"#C9962E"},
-    {id:"sotetarany",label:"Sötét arany",  hex:"#8B6914"},
-    {id:"bronz",     label:"Bronz",        hex:"#8C5E3C"},
-    {id:"ezust",     label:"Ezüst",        hex:"#B9BCC8"},
-    {id:"bordo",     label:"Bordó",        hex:"#6B1530"},
-    {id:"voros",     label:"Vörös",        hex:"#8B2020"},
-    {id:"sotetkek",  label:"Sötétkék",     hex:"#1B2A4A"},
-    {id:"zold",      label:"Zöld",         hex:"#2A5A3A"},
-    {id:"barna",     label:"Barna",        hex:"#5C3D2E"},
-    {id:"terrakotta",label:"Terrakotta",   hex:"#C47244"}
-  ];
+<main>
 
-  function hexFor(id) {
-    for (var i = 0; i < COLORS.length; i++) if (COLORS[i].id === id) return COLORS[i].hex;
-    return "#C9962E";
-  }
-  function labelFor(id) {
-    for (var i = 0; i < COLORS.length; i++) if (COLORS[i].id === id) return COLORS[i].label;
-    return id;
-  }
+<section class="page-hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="container">
+    <nav class="breadcrumbs" aria-label="Morzsamenü"><a href="/">Főoldal</a> / <span>Online tervező</span></nav>
+    <span class="eyebrow" style="margin-top:26px">Online tervező</span>
+    <h1>Tervezze meg <span class="grad-text">saját tábláját</span></h1>
+    <p class="lead">Válasszon anyagot és méretet, írja be a feliratot, és nézze meg élőben, hogyan mutat majd a kész tábla. A tervre egy kattintással kérhet díjmentes ajánlatot — kötelezettség nélkül.</p>
+  </div>
+</section>
 
-  var LABELS = {
-    material: { granit: "Gránit", marvany: "Márvány", meszko: "Mészkő" },
-    orient: { fekvo: "fekvő", allo: "álló" },
-    font: { klasszikus: "Klasszikus (talpas)", modern: "Modern (talp nélküli)", vesett: "Vésett hatású" },
-    motif: { nincs: "Nincs", keret: "Keret", kereszt: "Kereszt", olajag: "Olajág", csillag: "Csillag" }
-  };
+<section class="section">
+  <div class="container">
+    <div class="designer-wrap">
 
-  var MOTIF_SVG = {
-    kereszt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M6 8h12"/></svg>',
-    olajag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 20C9 15 14 9 20 4"/><path d="M9 15c-2.4.4-4.4-.4-5.4-2M9 15c.4-2.4-.4-4.4-2-5.4M13.5 10.5c-2.4.4-4.4-.4-5.4-2M13.5 10.5c.4-2.4-.4-4.4-2-5.4M17 7c-1.8.3-3.3-.3-4-1.5M17 7c.3-1.8-.3-3.3-1.5-4"/></svg>',
-    csillag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 5.9-5.3-3-5.3 3 1.2-5.9L3.4 9.3l6-.7z"/></svg>'
-  };
+      <!-- ÉLŐ ELŐNÉZET -->
+      <div class="designer-stage reveal">
+        <div class="stage-inner" id="stage">
+          <div class="plaque stone-granit" id="plaque">
+            <div class="plaque-frame" id="plaqueFrame"></div>
+            <div class="plaque-motif" id="plaqueMotif" aria-hidden="true"></div>
+            <div class="plaque-text" id="plaqueText">Emlékül<br>szeretteinknek</div>
+            <div class="plaque-sheen" aria-hidden="true"></div>
+          </div>
+        </div>
+        <p class="stage-hint">Mozgassa az egeret a tábla fölött (vagy húzza az ujját) a megtekintéshez</p>
+        <p class="stage-size" id="stageSize">30 × 20 cm · fekvő</p>
+      </div>
 
-  var plaque = document.getElementById("plaque");
-  var plaqueText = document.getElementById("plaqueText");
-  var plaqueMotif = document.getElementById("plaqueMotif");
-  var plaqueFrame = document.getElementById("plaqueFrame");
-  var stage = document.getElementById("stage");
-  var stageSize = document.getElementById("stageSize");
-  var btnQuote = document.getElementById("btnQuote");
-  if (!plaque || !stage) return;
+      <!-- VEZÉRLŐK -->
+      <div class="designer-controls reveal">
 
-  /* ---------- render ---------- */
-  function render() {
-    /* material texture */
-    plaque.className = "plaque stone-" + state.material
-      + " orient-" + state.orient
-      + " size-" + state.size.replace("x", "-");
+        <div class="ctrl-group">
+          <p class="ctrl-label">1. Anyag</p>
+          <div class="ctrl-options" id="ctrlMaterial">
+            <button type="button" class="ctrl-swatch active" data-material="granit" aria-pressed="true">
+              <span class="swatch stone-granit"></span>Gránit
+            </button>
+            <button type="button" class="ctrl-swatch" data-material="marvany" aria-pressed="false">
+              <span class="swatch stone-marvany"></span>Márvány
+            </button>
+            <button type="button" class="ctrl-swatch" data-material="meszko" aria-pressed="false">
+              <span class="swatch stone-meszko"></span>Mészkő
+            </button>
+          </div>
+        </div>
 
-    /* background color overlay */
-    plaque.style.backgroundColor = hexFor(state.bgColor);
+        <div class="ctrl-group">
+          <p class="ctrl-label">2. Méret és tájolás</p>
+          <div class="ctrl-options" id="ctrlSize">
+            <button type="button" class="ctrl-pill" data-size="15x10">15×10 cm</button>
+            <button type="button" class="ctrl-pill" data-size="20x15">20×15 cm</button>
+            <button type="button" class="ctrl-pill active" data-size="30x20">30×20 cm</button>
+            <button type="button" class="ctrl-pill" data-size="40x30">40×30 cm</button>
+            <button type="button" class="ctrl-pill" data-size="60x40">60×40 cm</button>
+          </div>
+          <input type="text" id="ctrlCustomSize" class="ctrl-input" placeholder="Egyedi méret, pl. 82×115 cm" maxlength="30">
+          <div class="ctrl-options" id="ctrlOrient" style="margin-top:10px">
+            <button type="button" class="ctrl-pill active" data-orient="fekvo">Fekvő</button>
+            <button type="button" class="ctrl-pill" data-orient="allo">Álló</button>
+          </div>
+        </div>
 
-    /* text color */
-    var tc = hexFor(state.textColor);
-    plaqueText.style.cssText = "";
-    plaqueText.style.color = tc;
-    /* add metallic gradient for gold/silver */
-    if (state.textColor === "arany" || state.textColor === "sotetarany") {
-      plaqueText.style.background = "linear-gradient(160deg,#E8C165 10%,#B07E1F 45%,#F0D48A 70%,#A87718 100%)";
-      plaqueText.style.webkitBackgroundClip = "text";
-      plaqueText.style.backgroundClip = "text";
-      plaqueText.style.color = "transparent";
-      plaqueText.style.filter = "drop-shadow(0 1px 1px rgba(0,0,0,.45))";
-    } else if (state.textColor === "ezust") {
-      plaqueText.style.background = "linear-gradient(160deg,#E6E8F0 10%,#9FA3B2 45%,#F2F3F8 70%,#8E92A2 100%)";
-      plaqueText.style.webkitBackgroundClip = "text";
-      plaqueText.style.backgroundClip = "text";
-      plaqueText.style.color = "transparent";
-      plaqueText.style.filter = "drop-shadow(0 1px 1px rgba(0,0,0,.4))";
-    } else if (state.textColor === "bronz") {
-      plaqueText.style.background = "linear-gradient(160deg,#C49A6C 10%,#8C5E3C 45%,#D4AA78 70%,#7A4E2E 100%)";
-      plaqueText.style.webkitBackgroundClip = "text";
-      plaqueText.style.backgroundClip = "text";
-      plaqueText.style.color = "transparent";
-      plaqueText.style.filter = "drop-shadow(0 1px 1px rgba(0,0,0,.4))";
-    } else {
-      plaqueText.style.textShadow = "0 1px 1px rgba(0,0,0,.3)";
-    }
+        <div class="ctrl-group">
+          <p class="ctrl-label">3. Felirat</p>
+          <textarea id="ctrlText" class="ctrl-textarea" rows="3" maxlength="120" placeholder="Írja be a tábla szövegét…">Emlékül
+szeretteinknek</textarea>
+          <p class="ctrl-hint">Új sorhoz nyomjon Entert. Max. 120 karakter.</p>
+        </div>
 
-    /* font family */
-    if (state.font === "klasszikus") {
-      plaqueText.style.fontFamily = 'Georgia, "Times New Roman", serif';
-      plaqueText.style.letterSpacing = ".04em";
-      plaqueText.style.textTransform = "none";
-      plaqueText.style.fontSize = "";
-    } else if (state.font === "modern") {
-      plaqueText.style.fontFamily = "var(--font-head, 'Sora'), sans-serif";
-      plaqueText.style.letterSpacing = ".02em";
-      plaqueText.style.textTransform = "none";
-      plaqueText.style.fontSize = "";
-    } else {
-      plaqueText.style.fontFamily = "'Space Mono', monospace";
-      plaqueText.style.letterSpacing = ".14em";
-      plaqueText.style.textTransform = "uppercase";
-      plaqueText.style.fontSize = "clamp(.9rem,2.6vw,1.2rem)";
-    }
+        <div class="ctrl-group">
+          <p class="ctrl-label">4. Betűtípus</p>
+          <div class="ctrl-options" id="ctrlFont">
+            <button type="button" class="ctrl-pill font-klasszikus active" data-font="klasszikus">Klasszikus</button>
+            <button type="button" class="ctrl-pill font-modern" data-font="modern">Modern</button>
+            <button type="button" class="ctrl-pill font-vesett" data-font="vesett">Vésett</button>
+          </div>
+          <input type="text" id="ctrlCustomFont" class="ctrl-input" placeholder="Egyéb betűtípus, pl. Times New Roman" maxlength="60">
+          <p class="ctrl-hint">Ha egyedi betűtípust szeretne, írja be a nevét — az ajánlatkérésbe bekerül.</p>
+        </div>
 
-    /* text content */
-    var safe = state.text
-      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-      .replace(/\n/g, "<br>");
-    plaqueText.innerHTML = safe || "&nbsp;";
+        <div class="ctrl-group">
+          <p class="ctrl-label">5. Háttérszín</p>
+          <div class="ctrl-color-grid" id="ctrlBgColor">
+            <button type="button" class="ctrl-color active" data-color="fekete" aria-pressed="true" title="Fekete"><span class="swatch" style="background:#1B1922"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetszurke" aria-pressed="false" title="Sötétszürke"><span class="swatch" style="background:#4A4856"></span></button>
+            <button type="button" class="ctrl-color" data-color="szurke" aria-pressed="false" title="Szürke"><span class="swatch" style="background:#8A8898"></span></button>
+            <button type="button" class="ctrl-color" data-color="vilagosszurke" aria-pressed="false" title="Világosszürke"><span class="swatch" style="background:#C4C2CC"></span></button>
+            <button type="button" class="ctrl-color" data-color="feher" aria-pressed="false" title="Fehér"><span class="swatch" style="background:#F7F5FA"></span></button>
+            <button type="button" class="ctrl-color" data-color="krem" aria-pressed="false" title="Krém"><span class="swatch" style="background:#F5E6C8"></span></button>
+            <button type="button" class="ctrl-color" data-color="arany" aria-pressed="false" title="Arany"><span class="swatch" style="background:#C9962E"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetarany" aria-pressed="false" title="Sötét arany"><span class="swatch" style="background:#8B6914"></span></button>
+            <button type="button" class="ctrl-color" data-color="bronz" aria-pressed="false" title="Bronz"><span class="swatch" style="background:#8C5E3C"></span></button>
+            <button type="button" class="ctrl-color" data-color="ezust" aria-pressed="false" title="Ezüst"><span class="swatch" style="background:#B9BCC8"></span></button>
+            <button type="button" class="ctrl-color" data-color="bordo" aria-pressed="false" title="Bordó"><span class="swatch" style="background:#6B1530"></span></button>
+            <button type="button" class="ctrl-color" data-color="voros" aria-pressed="false" title="Vörös"><span class="swatch" style="background:#8B2020"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetkek" aria-pressed="false" title="Sötétkék"><span class="swatch" style="background:#1B2A4A"></span></button>
+            <button type="button" class="ctrl-color" data-color="zold" aria-pressed="false" title="Zöld"><span class="swatch" style="background:#2A5A3A"></span></button>
+            <button type="button" class="ctrl-color" data-color="barna" aria-pressed="false" title="Barna"><span class="swatch" style="background:#5C3D2E"></span></button>
+            <button type="button" class="ctrl-color" data-color="terrakotta" aria-pressed="false" title="Terrakotta"><span class="swatch" style="background:#C47244"></span></button>
+          </div>
+        </div>
 
-    /* motif color + visibility */
-    var mc = hexFor(state.motifColor);
-    plaqueFrame.style.borderColor = mc;
-    plaqueMotif.style.color = mc;
-    plaqueFrame.style.display = state.motif === "keret" ? "block" : "none";
-    if (MOTIF_SVG[state.motif]) {
-      plaqueMotif.innerHTML = MOTIF_SVG[state.motif];
-      plaqueMotif.style.display = "block";
-    } else {
-      plaqueMotif.style.display = "none";
-    }
+        <div class="ctrl-group">
+          <p class="ctrl-label">6. Betűszín</p>
+          <div class="ctrl-color-grid" id="ctrlTextColor">
+            <button type="button" class="ctrl-color" data-color="fekete" aria-pressed="false" title="Fekete"><span class="swatch" style="background:#1B1922"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetszurke" aria-pressed="false" title="Sötétszürke"><span class="swatch" style="background:#4A4856"></span></button>
+            <button type="button" class="ctrl-color" data-color="szurke" aria-pressed="false" title="Szürke"><span class="swatch" style="background:#8A8898"></span></button>
+            <button type="button" class="ctrl-color" data-color="vilagosszurke" aria-pressed="false" title="Világosszürke"><span class="swatch" style="background:#C4C2CC"></span></button>
+            <button type="button" class="ctrl-color" data-color="feher" aria-pressed="false" title="Fehér"><span class="swatch" style="background:#F7F5FA"></span></button>
+            <button type="button" class="ctrl-color" data-color="krem" aria-pressed="false" title="Krém"><span class="swatch" style="background:#F5E6C8"></span></button>
+            <button type="button" class="ctrl-color active" data-color="arany" aria-pressed="true" title="Arany"><span class="swatch" style="background:#C9962E"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetarany" aria-pressed="false" title="Sötét arany"><span class="swatch" style="background:#8B6914"></span></button>
+            <button type="button" class="ctrl-color" data-color="bronz" aria-pressed="false" title="Bronz"><span class="swatch" style="background:#8C5E3C"></span></button>
+            <button type="button" class="ctrl-color" data-color="ezust" aria-pressed="false" title="Ezüst"><span class="swatch" style="background:#B9BCC8"></span></button>
+            <button type="button" class="ctrl-color" data-color="bordo" aria-pressed="false" title="Bordó"><span class="swatch" style="background:#6B1530"></span></button>
+            <button type="button" class="ctrl-color" data-color="voros" aria-pressed="false" title="Vörös"><span class="swatch" style="background:#8B2020"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetkek" aria-pressed="false" title="Sötétkék"><span class="swatch" style="background:#1B2A4A"></span></button>
+            <button type="button" class="ctrl-color" data-color="zold" aria-pressed="false" title="Zöld"><span class="swatch" style="background:#2A5A3A"></span></button>
+            <button type="button" class="ctrl-color" data-color="barna" aria-pressed="false" title="Barna"><span class="swatch" style="background:#5C3D2E"></span></button>
+            <button type="button" class="ctrl-color" data-color="terrakotta" aria-pressed="false" title="Terrakotta"><span class="swatch" style="background:#C47244"></span></button>
+          </div>
+        </div>
 
-    /* size label */
-    var dims = state.size.split("x");
-    var shown = state.orient === "allo" ? dims[1] + " × " + dims[0] : dims[0] + " × " + dims[1];
-    var sizeText = state.customSize ? state.customSize + " (egyedi)" : shown + " cm · " + LABELS.orient[state.orient];
-    if (stageSize) stageSize.textContent = sizeText;
+        <div class="ctrl-group">
+          <p class="ctrl-label">7. Díszítés</p>
+          <div class="ctrl-options" id="ctrlMotif">
+            <button type="button" class="ctrl-pill active" data-motif="nincs">Nincs</button>
+            <button type="button" class="ctrl-pill" data-motif="keret">Keret</button>
+            <button type="button" class="ctrl-pill" data-motif="kereszt">Kereszt</button>
+            <button type="button" class="ctrl-pill" data-motif="olajag">Olajág</button>
+            <button type="button" class="ctrl-pill" data-motif="csillag">Csillag</button>
+          </div>
+        </div>
 
-    updateQuoteLink();
-  }
+        <div class="ctrl-group">
+          <p class="ctrl-label">8. Díszítés színe</p>
+          <div class="ctrl-color-grid" id="ctrlMotifColor">
+            <button type="button" class="ctrl-color" data-color="fekete" aria-pressed="false" title="Fekete"><span class="swatch" style="background:#1B1922"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetszurke" aria-pressed="false" title="Sötétszürke"><span class="swatch" style="background:#4A4856"></span></button>
+            <button type="button" class="ctrl-color" data-color="szurke" aria-pressed="false" title="Szürke"><span class="swatch" style="background:#8A8898"></span></button>
+            <button type="button" class="ctrl-color" data-color="vilagosszurke" aria-pressed="false" title="Világosszürke"><span class="swatch" style="background:#C4C2CC"></span></button>
+            <button type="button" class="ctrl-color" data-color="feher" aria-pressed="false" title="Fehér"><span class="swatch" style="background:#F7F5FA"></span></button>
+            <button type="button" class="ctrl-color" data-color="krem" aria-pressed="false" title="Krém"><span class="swatch" style="background:#F5E6C8"></span></button>
+            <button type="button" class="ctrl-color active" data-color="arany" aria-pressed="true" title="Arany"><span class="swatch" style="background:#C9962E"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetarany" aria-pressed="false" title="Sötét arany"><span class="swatch" style="background:#8B6914"></span></button>
+            <button type="button" class="ctrl-color" data-color="bronz" aria-pressed="false" title="Bronz"><span class="swatch" style="background:#8C5E3C"></span></button>
+            <button type="button" class="ctrl-color" data-color="ezust" aria-pressed="false" title="Ezüst"><span class="swatch" style="background:#B9BCC8"></span></button>
+            <button type="button" class="ctrl-color" data-color="bordo" aria-pressed="false" title="Bordó"><span class="swatch" style="background:#6B1530"></span></button>
+            <button type="button" class="ctrl-color" data-color="voros" aria-pressed="false" title="Vörös"><span class="swatch" style="background:#8B2020"></span></button>
+            <button type="button" class="ctrl-color" data-color="sotetkek" aria-pressed="false" title="Sötétkék"><span class="swatch" style="background:#1B2A4A"></span></button>
+            <button type="button" class="ctrl-color" data-color="zold" aria-pressed="false" title="Zöld"><span class="swatch" style="background:#2A5A3A"></span></button>
+            <button type="button" class="ctrl-color" data-color="barna" aria-pressed="false" title="Barna"><span class="swatch" style="background:#5C3D2E"></span></button>
+            <button type="button" class="ctrl-color" data-color="terrakotta" aria-pressed="false" title="Terrakotta"><span class="swatch" style="background:#C47244"></span></button>
+          </div>
+        </div>
 
-  /* ---------- quote handoff ---------- */
-  function summary() {
-    var dims = state.size.split("x");
-    var shown = state.orient === "allo" ? dims[1] + "×" + dims[0] : dims[0] + "×" + dims[1];
-    var sizeStr = state.customSize ? state.customSize + " (egyedi méret)" : shown + " cm (" + LABELS.orient[state.orient] + ")";
-    var fontStr = state.customFont
-      ? LABELS.font[state.font] + " — ügyfél kérése: \"" + state.customFont + "\""
-      : LABELS.font[state.font];
-    return "Az online tervezőben összeállított tábla:\n" +
-      "\u2022 Anyag: " + LABELS.material[state.material] + "\n" +
-      "\u2022 Méret: " + sizeStr + "\n" +
-      "\u2022 Betűtípus: " + fontStr + "\n" +
-      "\u2022 Háttérszín: " + labelFor(state.bgColor) + "\n" +
-      "\u2022 Betűszín: " + labelFor(state.textColor) + "\n" +
-      "\u2022 Díszítés: " + LABELS.motif[state.motif] + "\n" +
-      "\u2022 Díszítés színe: " + labelFor(state.motifColor) + "\n" +
-      "\u2022 Felirat: \u201E" + state.text.replace(/\n/g, " / ") + "\u201D";
-  }
+        <div class="ctrl-cta">
+          <a href="/#kapcsolat" class="btn btn-primary" id="btnQuote">Ajánlatot kérek erre a tervre →</a>
+          <p class="ctrl-hint" style="margin-top:10px">A terv adatait automatikusan beírjuk az ajánlatkérő űrlapba — Önnek csak az elérhetőségét kell megadnia.</p>
+        </div>
 
-  function updateQuoteLink() {
-    if (btnQuote) btnQuote.href = "/?terv=" + encodeURIComponent(summary()) + "#kapcsolat";
-  }
+      </div>
+    </div>
+  </div>
+</section>
 
-  /* ---------- controls ---------- */
-  function bindGroup(id, attr, key) {
-    var wrap = document.getElementById(id);
-    if (!wrap) return;
-    wrap.addEventListener("click", function (e) {
-      var btn = e.target.closest("[data-" + attr + "]");
-      if (!btn) return;
-      wrap.querySelectorAll(".active").forEach(function (b) {
-        b.classList.remove("active");
-        b.setAttribute("aria-pressed", "false");
-      });
-      btn.classList.add("active");
-      btn.setAttribute("aria-pressed", "true");
-      state[key] = btn.getAttribute("data-" + attr);
-      render();
-    });
-  }
+<!-- Tervezési útmutató — tartalombővítés az indexelhetőségért -->
+<section class="section">
+  <div class="container" style="max-width:820px">
+    <div class="reveal">
+      <h2>Miért érdemes az online tervezővel <span class="grad-text">kezdeni</span>?</h2>
+      <p>Az emléktábla tervezésének legnehezebb része általában nem a szöveg megírása, hanem annak elképzelése, hogy a végeredmény hogyan fog mutatni. Az online tervező pontosan ezt segíti: valós méretarányban, választott anyagon, azonnal láthatóvá teszi a döntéseit — nem kell szakembert felkeresnie ahhoz, hogy első benyomást szerezzen.</p>
 
-  bindGroup("ctrlMaterial", "material", "material");
-  bindGroup("ctrlSize", "size", "size");
-  bindGroup("ctrlOrient", "orient", "orient");
-  bindGroup("ctrlFont", "font", "font");
-  bindGroup("ctrlBgColor", "color", "bgColor");
-  bindGroup("ctrlTextColor", "color", "textColor");
-  bindGroup("ctrlMotif", "motif", "motif");
-  bindGroup("ctrlMotifColor", "color", "motifColor");
+      <h3>Anyagválasztás</h3>
+      <p>A három elérhető anyag más-más környezetbe illik. A <a href="/granit-emlektabla"><strong>gránit</strong></a> a legmegbízhatóbb kültéri választás — évtizedekig változatlan marad. A <a href="/marvany-emlektabla"><strong>márvány</strong></a> klasszikus, elegáns megjelenést nyújt, elsősorban védett vagy beltéri helyre ajánljuk. A <a href="/meszko-emlektabla"><strong>mészkő</strong></a> harmonikusan illeszkedik történelmi épületekhez és műemléki környezetbe. Ha nem tudja, melyiket válassza, az ajánlatkérés során segítünk a legjobb döntésben.</p>
 
-  /* text inputs */
-  function bindInput(id, key) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener("input", function () {
-      state[key] = el.value;
-      render();
-    });
-  }
-  bindInput("ctrlText", "text");
-  bindInput("ctrlCustomSize", "customSize");
-  bindInput("ctrlCustomFont", "customFont");
+      <h3>Méret és tájolás</h3>
+      <p>A tábla mérete a helyszín adottságaitól és a felirat hosszától függ. Rövid, egysoros feliratokhoz 20×15 cm-es méret is elegendő; hosszabb szövegekhez vagy portré tervezéséhez 30×20 cm és 40×30 cm közötti mérettartományt javaslunk. Fekvő tájolás könnyebben olvasható, álló tájolás formálisabb hatású — épületre inkább fekvő, oszlopra vagy szűk falfelületre inkább álló táblát ajánlunk.</p>
 
-  /* ---------- gentle 3D tilt ---------- */
-  var MAX_TILT = 7;
-  function applyTilt(x, y) {
-    var r = stage.getBoundingClientRect();
-    var px = (x - r.left) / r.width - 0.5;
-    var py = (y - r.top) / r.height - 0.5;
-    plaque.style.transform = "rotateX(" + (-py * MAX_TILT) + "deg) rotateY(" + (px * MAX_TILT) + "deg)";
-  }
-  function resetTilt() { plaque.style.transform = "rotateX(2deg) rotateY(-4deg)"; }
-  stage.addEventListener("mousemove", function (e) { applyTilt(e.clientX, e.clientY); });
-  stage.addEventListener("mouseleave", resetTilt);
-  stage.addEventListener("touchmove", function (e) {
-    if (e.touches.length === 1) applyTilt(e.touches[0].clientX, e.touches[0].clientY);
-  }, { passive: true });
-  stage.addEventListener("touchend", resetTilt);
+      <h3>Mi történik a tervezés után?</h3>
+      <p>Amint elküldi a tervet ajánlatkérésként, munkatársunk 48 órán belül visszakeresi Önt egy pontosított látványtervvel és részletes árajánlattal. A tervező kimenete kiindulási alap — a végleges tábla design-ját közösen véglegesítjük, mielőtt a gyártás elkezdődik. Kötelezettségvállalás csak a jóváhagyáskor történik.</p>
+    </div>
+  </div>
+</section>
 
-  resetTilt();
-  render();
-})();
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Hogyan tovább?</span>
+      <h2>A tervtől a <span class="grad-text">kész tábláig</span></h2>
+    </div>
+    <div class="grid-3">
+      <article class="card reveal">
+        <h3>1. Ajánlatkérés</h3>
+        <p>A kész tervét elküldi nekünk az űrlapon — mi 48 órán belül díjmentes, tételes árajánlatot adunk rá.</p>
+      </article>
+      <article class="card reveal">
+        <h3>2. Pontosítás</h3>
+        <p>Grafikusunk professzionális látványtervet készít az Ön elképzeléséből, amelyet a jóváhagyásig finomítunk.</p>
+      </article>
+      <article class="card reveal">
+        <h3>3. Gyártás</h3>
+        <p>A jóváhagyott terv alapján műhelyünkben elkészítjük a táblát — homokfúvott, festett vagy aranyozott felirattal.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="container">
+    <div class="cta-band reveal">
+      <h2>Inkább személyesen egyeztetne?</h2>
+      <p>Hívjon minket bizalommal: <strong>06 30 726 5412</strong> — vagy írja meg elképzelését az űrlapon.</p>
+      <a href="/#kapcsolat" class="btn">Ajánlatkérés →</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <span class="footer-logo">emlektabla.net</span>
+        <p>Egyedi emléktáblák tervezése, készítése és felújítása gránitból, márványból és mészkőből — Budapesten és környékén.</p>
+      </div>
+      <div>
+        <p class="footer-title">Szolgáltatások</p>
+        <a href="/emlektabla-keszites">Emléktábla készítés</a>
+        <a href="/emlektabla-felujitas">Emléktábla felújítás</a>
+        <a href="/emlektabla-tervezes">Emléktábla tervezés</a>
+        <a href="/halatabla">Hálatábla</a>
+        <a href="/tervezo">Online tervező</a>
+      </div>
+      <div>
+        <p class="footer-title">Anyagok</p>
+        <a href="/granit-emlektabla">Gránit emléktábla</a>
+        <a href="/marvany-emlektabla">Márvány emléktábla</a>
+        <a href="/meszko-emlektabla">Mészkő emléktábla</a>
+      </div>
+      <div>
+        <p class="footer-title">Kapcsolat</p>
+        <a href="tel:+36307265412">06 30 726 5412</a>
+        <a href="/#kapcsolat">Ajánlatkérő űrlap</a>
+        <a href="/galeria">Galéria</a>
+        <a href="/blog">Blog</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Emlektabla.net — Minden jog fenntartva.</span>
+      <span>
+        <a href="/adatvedelem">Adatvédelem</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/scripts.js" defer></script>
+<script src="/js/tervezo.js" defer></script>
+</body>
+</html>
