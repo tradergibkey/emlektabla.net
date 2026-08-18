@@ -24,6 +24,7 @@ const STATIC_PAGES = [
   { loc: '/marvany-emlektabla',   changefreq: 'monthly', priority: '0.8' },
   { loc: '/meszko-emlektabla',    changefreq: 'monthly', priority: '0.8' },
   { loc: '/galeria',              changefreq: 'weekly',  priority: '0.7' },
+  { loc: '/rolunk',               changefreq: 'monthly', priority: '0.6' },
   { loc: '/blog',                 changefreq: 'daily',   priority: '0.7' },
   { loc: '/adatvedelem',          changefreq: 'yearly',  priority: '0.2' },
 ];
@@ -138,8 +139,11 @@ function injectTracking() {
       let html = fs.readFileSync(file, 'utf-8');
       let changed = false;
 
-      /* Inject gtag-init.js if missing */
-      if (!html.includes('gtag-init.js')) {
+      /* Inject gtag-init.js if missing.
+         Az ABB által generált blogposztok maguk illesztik be a gtag-et inline
+         (AW-...), ezért azokra NEM szabad újra ráinjektálni — dupla
+         gtag('config') és dupla consent default lenne belőle. */
+      if (!html.includes('gtag-init.js') && !html.includes('AW-18339451265')) {
         html = html.replace(
           /(<meta\s+name="viewport"[^>]*>)/i,
           '$1\n' + GTAG_SCRIPT
