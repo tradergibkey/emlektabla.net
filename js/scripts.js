@@ -152,32 +152,83 @@
   var track = document.getElementById("quote-track");
   if (track) {
     var group = track.querySelector(".quote-group");
-    var items = Array.prototype.slice.call(group.children);
-    for (var i = items.length - 1; i > 0; i--) {
+    var qitems = Array.prototype.slice.call(group.children);
+    for (var i = qitems.length - 1; i > 0; i--) {
       var j2 = Math.floor(Math.random() * (i + 1));
-      group.appendChild(items[j2]);
-      items.splice(j2, 1);
+      group.appendChild(qitems[j2]);
+      qitems.splice(j2, 1);
     }
     track.appendChild(group.cloneNode(true));
   }
 
-  /* hero videó fallback: ha nem tölt be vagy nem indul, a vésett plakett jelenik meg */
+  /* hero videó: LCP-barát késleltetett betöltés + fallback a vésett plakettre.
+     A forrást szándékosan csak a window load után fűzzük be (data-src attribútum),
+     hogy a videó ne versenyezzen az oldal első kirajzolásával. A betöltésnek és a
+     hibakezelésnek EGY helyen kell futnia — különben a play() még forrás nélkül
+     elhasalna, és azonnal elrejtené a videót. */
   var vid = document.querySelector(".hero-video");
   if (vid) {
+    var carveShown = false;
     var showCarve = function () {
+      if (carveShown) return;
+      carveShown = true;
       vid.style.display = "none";
       var veil = document.querySelector(".hero-veil");
       if (veil) veil.style.display = "none";
       var carve = document.querySelector(".hero-carve");
       if (carve) carve.style.display = "block";
     };
-    var src = vid.querySelector("source");
-    if (src) src.addEventListener("error", showCarve);
+
     vid.addEventListener("error", showCarve);
-    var p = vid.play();
-    if (p && p.catch) p.catch(showCarve);
-    setTimeout(function () {
-      if (vid.readyState === 0) showCarve();
-    }, 4000);
+
+    var startHeroVideo = function () {
+      var srcUrl = vid.getAttribute("data-src");
+
+      /* Nincs data-src → a <source> már a HTML-ben van (korábbi működés). */
+      if (!srcUrl) {
+        var existing = vid.querySelector("source");
+        if (existing) existing.addEventListener("error", showCarve);
+        var p0 = vid.play();
+        if (p0 && p0.catch) p0.catch(showCarve);
+        setTimeout(function () {
+          if (vid.readyState === 0) showCarve();
+        }, 4000);
+        return;
+      }
+
+      /* Csökkentett mozgás, adattakarékos mód vagy lassú hálózat → marad a plakett. */
+      if (window.matchMedia &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        showCarve();
+        return;
+      }
+      var conn = navigator.connection;
+      if (conn && (conn.saveData ||
+                   conn.effectiveType === "slow-2g" ||
+                   conn.effectiveType === "2g")) {
+        showCarve();
+        return;
+      }
+
+      var s = document.createElement("source");
+      s.src = srcUrl;
+      s.type = "video/mp4";
+      s.addEventListener("error", showCarve);
+      vid.appendChild(s);
+      vid.load();
+      var p = vid.play();
+      if (p && p.catch) p.catch(showCarve);
+      setTimeout(function () {
+        if (vid.readyState === 0) showCarve();
+      }, 6000);
+    };
+
+    if (document.readyState === "complete") {
+      setTimeout(startHeroVideo, 100);
+    } else {
+      window.addEventListener("load", function () {
+        setTimeout(startHeroVideo, 100);
+      });
+    }
   }
 })();
