@@ -102,7 +102,7 @@
     });
   }
 
-  /* Web3Forms contact form */
+  /* Web3Forms contact form — client-side validation + hCaptcha check */
   var form = document.getElementById("contact-form");
   if (form) {
     form.addEventListener("submit", function (ev) {
@@ -110,6 +110,47 @@
       var status = document.getElementById("form-status");
       var submitBtn = form.querySelector('button[type="submit"]');
       status.className = "form-status";
+      status.textContent = "";
+
+      /* Kötelező mezők ellenőrzése */
+      var nameEl = form.querySelector('#f-name');
+      var emailEl = form.querySelector('#f-email');
+      var phoneEl = form.querySelector('#f-phone');
+      var serviceEl = form.querySelector('#f-service');
+      var msgEl = form.querySelector('#f-msg');
+
+      var name = (nameEl.value || "").trim();
+      var email = (emailEl.value || "").trim();
+      var phone = (phoneEl.value || "").trim();
+      var service = (serviceEl.value || "").trim();
+      var message = (msgEl.value || "").trim();
+
+      var errors = [];
+      if (!name) errors.push("név");
+      if (!email) errors.push("e-mail cím");
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.push("érvényes e-mail cím");
+      if (!phone) errors.push("telefonszám");
+      else if ((phone.match(/\d/g) || []).length < 6) errors.push("érvényes telefonszám");
+      if (!service) errors.push("szolgáltatás");
+      if (!message) errors.push("üzenet");
+
+      if (errors.length) {
+        status.textContent = "Kérjük, töltse ki a következőt: " + errors.join(", ") + ".";
+        status.className = "form-status err";
+        return;
+      }
+
+      /* hCaptcha ellenőrzés */
+      var captchaToken = "";
+      if (typeof hcaptcha !== "undefined") {
+        try { captchaToken = hcaptcha.getResponse(); } catch (e) {}
+      }
+      if (!captchaToken) {
+        status.textContent = "Kérjük, jelölje be a „Nem vagyok robot\" négyzetet a küldés előtt.";
+        status.className = "form-status err";
+        return;
+      }
+
       submitBtn.disabled = true;
       submitBtn.textContent = "Küldés...";
 
@@ -124,6 +165,9 @@
             status.textContent = "Köszönjük! Üzenetét megkaptuk, hamarosan jelentkezünk.";
             status.className = "form-status ok";
             form.reset();
+            if (typeof hcaptcha !== "undefined") {
+              try { hcaptcha.reset(); } catch (e) {}
+            }
             /* Google Ads conversion — form submission */
             if (typeof gtag === 'function') {
               gtag('event', 'conversion', {
@@ -135,11 +179,17 @@
           } else {
             status.textContent = "Hiba történt a küldés során. Kérjük, próbálja újra, vagy hívjon minket telefonon.";
             status.className = "form-status err";
+            if (typeof hcaptcha !== "undefined") {
+              try { hcaptcha.reset(); } catch (e) {}
+            }
           }
         })
         .catch(function () {
           status.textContent = "Hiba történt a küldés során. Kérjük, próbálja újra, vagy hívjon minket telefonon.";
           status.className = "form-status err";
+          if (typeof hcaptcha !== "undefined") {
+            try { hcaptcha.reset(); } catch (e) {}
+          }
         })
         .finally(function () {
           submitBtn.disabled = false;
