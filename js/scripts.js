@@ -102,7 +102,7 @@
     });
   }
 
-  /* Web3Forms contact form — client-side validation + hCaptcha check */
+  /* Web3Forms contact form — client-side required field validation */
   var form = document.getElementById("contact-form");
   if (form) {
     form.addEventListener("submit", function (ev) {
@@ -140,17 +140,6 @@
         return;
       }
 
-      /* hCaptcha ellenőrzés */
-      var captchaToken = "";
-      if (typeof hcaptcha !== "undefined") {
-        try { captchaToken = hcaptcha.getResponse(); } catch (e) {}
-      }
-      if (!captchaToken) {
-        status.textContent = "Kérjük, jelölje be a „Nem vagyok robot\" négyzetet a küldés előtt.";
-        status.className = "form-status err";
-        return;
-      }
-
       submitBtn.disabled = true;
       submitBtn.textContent = "Küldés...";
 
@@ -165,9 +154,6 @@
             status.textContent = "Köszönjük! Üzenetét megkaptuk, hamarosan jelentkezünk.";
             status.className = "form-status ok";
             form.reset();
-            if (typeof hcaptcha !== "undefined") {
-              try { hcaptcha.reset(); } catch (e) {}
-            }
             /* Google Ads conversion — form submission */
             if (typeof gtag === 'function') {
               gtag('event', 'conversion', {
@@ -179,17 +165,11 @@
           } else {
             status.textContent = "Hiba történt a küldés során. Kérjük, próbálja újra, vagy hívjon minket telefonon.";
             status.className = "form-status err";
-            if (typeof hcaptcha !== "undefined") {
-              try { hcaptcha.reset(); } catch (e) {}
-            }
           }
         })
         .catch(function () {
           status.textContent = "Hiba történt a küldés során. Kérjük, próbálja újra, vagy hívjon minket telefonon.";
           status.className = "form-status err";
-          if (typeof hcaptcha !== "undefined") {
-            try { hcaptcha.reset(); } catch (e) {}
-          }
         })
         .finally(function () {
           submitBtn.disabled = false;
