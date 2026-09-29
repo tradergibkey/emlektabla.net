@@ -747,3 +747,46 @@ p{color:var(--ink-soft)}
   .footer-nap .footer-badges{position:absolute;right:0;top:50%;transform:translateY(-50%);margin:0;}
   .footer-badges--row{justify-content:flex-end;margin:0 0 16px;}
 }
+
+/* ===== Jó tudni doboz — természetes kő + arany felirat ===== */
+.stone-note{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-left:4px solid var(--violet);
+  border-radius:12px;
+  padding:22px 26px;
+  box-shadow:0 4px 14px rgba(0,0,0,.05);
+}
+.stone-note h3{
+  font-family:var(--font-head,'Sora'),sans-serif;
+  font-size:1.05rem;
+  font-weight:700;
+  margin:0 0 12px;
+  color:var(--violet);
+}
+.stone-note p{margin:0 0 10px;line-height:1.55;font-size:.95rem;color:var(--ink-soft,#4A4A4A)}
+.stone-note p:last-child{margin-bottom:0}
+.stone-note strong{color:var(--ink)}
+
+/* Dinamikus arany-figyelmeztetés a tervezőben */
+.gold-notice{
+  margin:16px auto 0;
+  max-width:520px;
+  background:linear-gradient(135deg,#FBF3DC,#F5E6C8);
+  border:1px solid #D4A84A;
+  border-left:4px solid #C9962E;
+  border-radius:10px;
+  padding:12px 16px;
+  font-size:.9rem;
+  line-height:1.5;
+  color:#4A3A0F;
+  text-align:left;
+}
+.gold-notice strong{color:#8B6914}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .gold-notice{
+    background:linear-gradient(135deg,#3A2E14,#2A2110);
+    color:#F5E6C8;border-color:#C9962E;
+  }
+  :root:not([data-theme="light"]) .gold-notice strong{color:#F0C863}
+}

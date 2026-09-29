@@ -147,6 +147,15 @@
     if (stageSize) stageSize.textContent = sizeText;
 
     updateQuoteLink();
+  
+    /* Arany-figyelmeztetés láthatósága */
+    var _goldNoticeEl = document.getElementById("goldNotice");
+    if (_goldNoticeEl) {
+      var _isGold =
+        state.textColor === "arany" || state.textColor === "sotetarany" ||
+        state.motifColor === "arany" || state.motifColor === "sotetarany";
+      _goldNoticeEl.hidden = !_isGold;
+    }
   }
 
   /* ---------- quote handoff ---------- */
