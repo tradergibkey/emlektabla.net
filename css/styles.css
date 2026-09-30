@@ -791,12 +791,28 @@ p{color:var(--ink-soft)}
   :root:not([data-theme="light"]) .gold-notice strong{color:#F0C863}
 }
 
-/* ===== Márvány textúra + marvany-note ===== */
+/* ===== Kőtextúrák (nagy tábla-preview) — fotó + paletta-szín keverve ===== */
 .plaque.stone-marvany{
   background-image:url("/img/marvany-carrarai.webp") !important;
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
+}
+/* Gránit: overlay — a paletta-szín adja a tónust, a fotó a csillámot/rögzöttséget */
+.plaque.stone-granit{
+  background-image:url("/img/granit-grain.webp") !important;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-blend-mode:overlay;
+}
+/* Mészkő: soft-light — a paletta-szín adja a tónust, a fotó a mészkő struktúráját */
+.plaque.stone-meszko{
+  background-image:url("/img/meszko-grain.webp") !important;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-blend-mode:soft-light;
 }
 .marvany-note{
   background:linear-gradient(135deg,#F4F1EA,#E8E2D6);

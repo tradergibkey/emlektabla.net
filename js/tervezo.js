@@ -16,8 +16,9 @@
     motifColor: "arany"
   };
 
-  /* ---- 16-color palette ---- */
+  /* ---- Color palette (text/motif = 16 colors; stone-bg = material-specific) ---- */
   var COLORS = [
+    /* Univerzális (szöveg + díszítés + részben kőháttér) */
     {id:"fekete",    label:"Fekete",       hex:"#1B1922"},
     {id:"sotetszurke",label:"Sötétszürke", hex:"#4A4856"},
     {id:"szurke",    label:"Szürke",       hex:"#8A8898"},
@@ -33,8 +34,25 @@
     {id:"sotetkek",  label:"Sötétkék",     hex:"#1B2A4A"},
     {id:"zold",      label:"Zöld",         hex:"#2A5A3A"},
     {id:"barna",     label:"Barna",        hex:"#5C3D2E"},
-    {id:"terrakotta",label:"Terrakotta",   hex:"#C47244"}
+    {id:"terrakotta",label:"Terrakotta",   hex:"#C47244"},
+    /* Gránit-specifikus árnyalatok (kereskedelmi kőnevek) */
+    {id:"gr_szurke", label:"Padang szürke",     hex:"#B8B6B0"},
+    {id:"gr_voros",  label:"Imperial vörös",    hex:"#7A3A34"},
+    {id:"gr_kek",    label:"Blue Pearl kékes",  hex:"#3A4250"},
+    {id:"gr_zold",   label:"Verde zöld",        hex:"#1F3B30"},
+    /* Mészkő-specifikus árnyalatok */
+    {id:"me_travertin",label:"Travertin",       hex:"#EDE6D6"},
+    {id:"me_suttoi", label:"Süttői bézs",       hex:"#D9C3A0"},
+    {id:"me_jura",   label:"Jura sárga",        hex:"#D8BE84"},
+    {id:"me_szurke", label:"Jura szürke",       hex:"#A9A59B"}
   ];
+
+  /* Melyik kőháttér-szín melyik anyagnál elérhető */
+  var STONE_BG = {
+    granit:  ["fekete","sotetszurke","gr_szurke","gr_voros","barna","gr_kek","gr_zold"],
+    meszko:  ["krem","me_travertin","me_suttoi","me_jura","me_szurke"],
+    marvany: []  /* márvány palettát elrejtjük */
+  };
 
   function hexFor(id) {
     for (var i = 0; i < COLORS.length; i++) if (COLORS[i].id === id) return COLORS[i].hex;
@@ -163,12 +181,34 @@
       _goldNoticeEl.hidden = !_isGold;
     }
 
-    /* Márvány anyag: háttérszín paletta elrejtve, note láthatóvá */
+    /* Anyagfüggő háttérszín-paletta: gomb láthatóság + auto-váltás ha az aktuális szín nem érvényes */
     var _bgGrid = document.getElementById("ctrlBgColor");
-    var _bgLabel = _bgGrid ? _bgGrid.previousElementSibling : null;  /* the <p class="ctrl-label"> */
     var _marvNote = document.getElementById("marvanyNote");
     var _isMarvany = state.material === "marvany";
-    if (_bgGrid) _bgGrid.style.display = _isMarvany ? "none" : "";
+    var _allowed = STONE_BG[state.material] || [];
+    if (_bgGrid) {
+      _bgGrid.style.display = _isMarvany ? "none" : "";
+      var _btns = _bgGrid.querySelectorAll("[data-color]");
+      for (var _i = 0; _i < _btns.length; _i++) {
+        var _cid = _btns[_i].getAttribute("data-color");
+        var _ok = _allowed.indexOf(_cid) !== -1;
+        _btns[_i].style.display = _ok ? "" : "none";
+        if (!_ok && _btns[_i].classList.contains("active")) {
+          _btns[_i].classList.remove("active");
+          _btns[_i].setAttribute("aria-pressed", "false");
+        }
+      }
+      /* Ha a jelenlegi bgColor nem érvényes az új anyagnál -> első engedélyezett */
+      if (!_isMarvany && _allowed.indexOf(state.bgColor) === -1 && _allowed.length) {
+        state.bgColor = _allowed[0];
+        plaque.style.backgroundColor = hexFor(state.bgColor);
+        var _first = _bgGrid.querySelector('[data-color="' + state.bgColor + '"]');
+        if (_first) {
+          _first.classList.add("active");
+          _first.setAttribute("aria-pressed", "true");
+        }
+      }
+    }
     if (_marvNote) _marvNote.hidden = !_isMarvany;
 
     /* Díszítés esetén hely a feliratnak */
